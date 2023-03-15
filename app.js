@@ -7,7 +7,8 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 //importación de rutas
-import viewsRoutes from './routes/views.routes.js'
+import viewsRoutes from './routes/views.routes.js';
+import productosRoutes from './routes/productos.routes.js';
 
 const app = express();
 
@@ -17,7 +18,9 @@ app.use(express.urlencoded({extended:false}));
 app.use(cors());
 
 //middleware de rutas
+
 app.use(viewsRoutes);
+app.use("/api/v1/", productosRoutes);
 
 app.listen(3001, () => console.log("servidor en http://localhost:3001"))
 
