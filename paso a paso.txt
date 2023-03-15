@@ -1,0 +1,7 @@
+1.- npm init -y
+2.- Instalar dependencias para funcionamiento de sequelize
+npm install --save sequelize
+npm install --save pg pg-hstore
+npm express
+
+4.- generar estructura de carpetas
