@@ -1,1 +1,8 @@
 <h1>Página principal</h1>
+
+
+<section>
+    {{#each productos }}
+        <p>Nombre: {{this.dataValues.nombre}} - {{this.dataValues.descripcion}}</p>
+    {{/each }}
+</section>
