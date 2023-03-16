@@ -1,0 +1,16 @@
+<div class="card mx-auto my-2" style="width: 80%;">
+  <img src="..." class="card-img-top" alt="{{nombre}}">
+  <div class="card-body">
+    <h5 class="card-title">{{nombre}}</h5>
+    <p class="card-text">{{descripcion}}</p>
+    <a href="/productos/{{id}}" class="btn btn-primary">Ver mas</a>
+    <button class="btn btn-success" onclick="agregar('{{id}}')">Agregar al carro</button>
+  </div>
+</div>
+
+
+<script>
+  const agregar = (id) => {
+    alert("Agregando producto: " + id)
+  }
+</script>

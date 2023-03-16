@@ -1,8 +1,16 @@
-<h1>Página principal</h1>
+<h1 class="text-center mt-5">Página principal</h1>
 
 
 <section>
-    {{#each productos }}
-        <p>Nombre: {{this.dataValues.nombre}} - {{this.dataValues.descripcion}}</p>
-    {{/each }}
+    <div class="row">
+        {{#each productos }}
+        <div class="col-12 col-md-6 col-lg-4">
+            {{>card 
+                id= this.dataValues.id
+                nombre= this.dataValues.nombre
+                descripcion= this.dataValues.descripcion
+            }}
+        </div>
+        {{/each }}
+    </div>
 </section>

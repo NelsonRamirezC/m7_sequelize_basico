@@ -1,4 +1,5 @@
 import { Producto } from '../models/Producto.model.js'
+import { Categoria } from '../models/Categoria.model.js'
 
 
 export const controllerHome = async (req, res) => {
@@ -6,5 +7,22 @@ export const controllerHome = async (req, res) => {
     console.log(productos)
     res.render("home", {
         productos
+    });
+}
+
+export const controllerCategorias = async (req, res) => {
+    let categorias = await  Categoria.findAll();
+    console.log(categorias)
+    res.render("categorias", {
+        categorias
+    });
+}
+
+export const controllerProductos = async (req, res) => {
+    let id = req.params.id;
+    let producto = await  Producto.findByPk(id);
+    console.log(producto)
+    res.render("productoDetails", {
+        producto
     });
 }

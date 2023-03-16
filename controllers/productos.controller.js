@@ -32,6 +32,7 @@ export const addProductos = async (req, res) => {
         let nuevoProducto = await Producto.create({nombre, descripcion, categoria, precio, stock});
         res.send("producto creado correctamente.")
     }catch(error){
+        console.log(error)
         res.status(500).send("Error al guardar el producto.")
     }
 

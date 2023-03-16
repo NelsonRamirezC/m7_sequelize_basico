@@ -2,6 +2,8 @@ import app from './app.js'
 import { sequelize } from './database/database.js'
 
 import './models/Producto.model.js'
+import './models/Categoria.model.js'
+import './models/Carro.model.js'
 
 
 const main = async () => {
