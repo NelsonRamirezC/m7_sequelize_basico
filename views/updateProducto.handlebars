@@ -1,0 +1,53 @@
+<h1 class="text-center mt-5">Actualizar Producto {{producto.dataValues.nombre}} id({{producto.dataValues.id}})</h1>
+
+
+        {{!-- id, nombre, descripcion, categoria, precio, stock --}}
+        <form id="formularioActualizar">
+            id: <input class="form-control" type="number" value="{{producto.dataValues.id}}" name="id" id="id">
+            nombre: <input class="form-control" type="text" value="{{producto.dataValues.nombre}}" name="nombre" id="nombre">
+            descripcion: <input class="form-control" type="text" value="{{producto.dataValues.descripcion}}" name="descripcion" id="descripcion">
+            categoria: <input class="form-control" type="text" value="" name="categoria" id="categoria">
+            precio: <input class="form-control" type="number" value="{{producto.dataValues.precio}}" name="precio" id="precio" min="0">
+            stock: <input class="form-control" type="number" value="{{producto.dataValues.stock}}" name="stock" id="stock" min="0">
+            <button type="submit" class="btn btn-warning mt-3">Actualizar</button>
+        </form>
+
+
+
+<script>
+    let formulario = document.getElementById("formularioActualizar");
+
+    formulario.addEventListener("submit", (event) => {
+        event.preventDefault();
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "id": id.value,
+            "nombre": nombre.value,
+            "descripcion": descripcion.value,
+            "categoria": categoria.value,
+            "precio": precio.value,
+            "stock": stock.value
+        });
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("/api/v1/productos", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            if(result.code == 201){
+                alert(result.message);
+                location.reload();
+            }else {
+                alert(result.message);
+            }
+        })
+        .catch(error => console.log('error', error));
+            })
+</script>

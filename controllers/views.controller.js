@@ -26,3 +26,23 @@ export const controllerProductos = async (req, res) => {
         producto
     });
 }
+
+export const controllerInventario = async (req, res) => {
+    try {
+        let productos = await  Producto.findAll();
+        res.render("inventario", {
+            productos
+        });
+        
+    } catch (error) {
+        
+    }
+}
+
+export const controllerUpdateProducto = async (req, res) => {
+    let id = req.params.id;
+    let producto = await  Producto.findByPk(id);
+    res.render("updateProducto", {
+        producto
+    });
+}

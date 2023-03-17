@@ -30,10 +30,10 @@ export const addProductos = async (req, res) => {
     try{
         let {nombre, descripcion, categoria, precio, stock} = req.body;
         let nuevoProducto = await Producto.create({nombre, descripcion, categoria, precio, stock});
-        res.send("producto creado correctamente.")
+        res.status(201).json({code: 201, message: "producto creado correctamente."})
     }catch(error){
         console.log(error)
-        res.status(500).send("Error al guardar el producto.")
+        res.status(500).json({code: 500, message: "Error al guardar el producto."})
     }
 
 }
@@ -47,10 +47,10 @@ export const deleteProductosById = async (req, res) => {
               id
             }
           });
-          res.send("Producto eliminado correctamente.")
+          res.json({code:200, message: "Producto eliminado correctamente."})
     
     } catch (error) {
-        res.status(500).send("error al eliminar el producto.")
+        res.status(500).json({code: 500, message:"error al eliminar el producto."})
     }
 }
 
@@ -70,9 +70,9 @@ export const updateProductos = async (req, res) => {
               id
             }
           });
-        res.send("producto actualizado correctamente.")
+        res.json({code: 201, message: "producto actualizado correctamente."})
         }
     }catch(error){
-        res.status(500).send("Error al actualizar el producto.")
+        res.status(500).json({code: 500, message: "Error al actualizar el producto."})
     }
 }
