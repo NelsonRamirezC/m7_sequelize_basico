@@ -5,7 +5,12 @@
     <form id="formularioAgregar">
             nombre: <input class="form-control" type="text" value="{{producto.dataValues.nombre}}" name="nombre" id="nombre">
             descripcion: <input class="form-control" type="text" value="{{producto.dataValues.descripcion}}" name="descripcion" id="descripcion">
-            categoria: <input class="form-control" type="text" value="" name="categoria" id="categoria">
+            categoria: 
+            <select name="categoria" id="categoria" class="form-control">
+                {{#each categorias}}
+                <option value="{{this.id}}">{{this.nombre}}</option>
+                {{/each}}
+            </select>
             precio: <input class="form-control" type="number" value="{{producto.dataValues.precio}}" name="precio" id="precio" min="0">
             stock: <input class="form-control" type="number" value="{{producto.dataValues.stock}}" name="stock" id="stock" min="0">
             <button type="submit" class="btn btn-success mt-3">Agregar</button>

@@ -30,8 +30,13 @@ export const controllerProductos = async (req, res) => {
 export const controllerInventario = async (req, res) => {
     try {
         let productos = await  Producto.findAll();
+        let categorias = await  Categoria.findAll({
+            raw:true
+        });
+        console.log(categorias)
         res.render("inventario", {
-            productos
+            productos,
+            categorias
         });
         
     } catch (error) {
@@ -41,8 +46,17 @@ export const controllerInventario = async (req, res) => {
 
 export const controllerUpdateProducto = async (req, res) => {
     let id = req.params.id;
-    let producto = await  Producto.findByPk(id);
+    let producto = await  Producto.findByPk(id,{
+        raw:true,
+        include: "categoria"
+    });
+    let nombreCategoria = producto["categoria.nombre"]
+    let categorias = await  Categoria.findAll({
+        raw:true
+    });
     res.render("updateProducto", {
-        producto
+        producto,
+        categorias,
+        nombreCategoria
     });
 }

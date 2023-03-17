@@ -1,14 +1,19 @@
-<h1 class="text-center mt-5">Actualizar Producto {{producto.dataValues.nombre}} id({{producto.dataValues.id}})</h1>
+<h1 class="text-center mt-5">Actualizar Producto {{producto.nombre}} id({{producto.id}})</h1>
 
 
         {{!-- id, nombre, descripcion, categoria, precio, stock --}}
         <form id="formularioActualizar">
-            id: <input class="form-control" type="number" value="{{producto.dataValues.id}}" name="id" id="id">
-            nombre: <input class="form-control" type="text" value="{{producto.dataValues.nombre}}" name="nombre" id="nombre">
-            descripcion: <input class="form-control" type="text" value="{{producto.dataValues.descripcion}}" name="descripcion" id="descripcion">
-            categoria: <input class="form-control" type="text" value="" name="categoria" id="categoria">
-            precio: <input class="form-control" type="number" value="{{producto.dataValues.precio}}" name="precio" id="precio" min="0">
-            stock: <input class="form-control" type="number" value="{{producto.dataValues.stock}}" name="stock" id="stock" min="0">
+            id: <input class="form-control" type="number" value="{{producto.id}}" name="id" id="id">
+            nombre: <input class="form-control" type="text" value="{{producto.nombre}}" name="nombre" id="nombre">
+            descripcion: <input class="form-control" type="text" value="{{producto.descripcion}}" name="descripcion" id="descripcion">
+            categoria:
+            <select name="categoria" id="categoria" data-selected="{{producto.categoriaId}}" class="form-control">
+                {{#each categorias}}
+                <option value="{{this.id}}">{{this.nombre}}</option>
+                {{/each}}
+            </select>
+            precio: <input class="form-control" type="number" value="{{producto.precio}}" name="precio" id="precio" min="0">
+            stock: <input class="form-control" type="number" value="{{producto.stock}}" name="stock" id="stock" min="0">
             <button type="submit" class="btn btn-warning mt-3">Actualizar</button>
         </form>
 
@@ -50,4 +55,11 @@
         })
         .catch(error => console.log('error', error));
             })
+
+            categoria
+            document.querySelectorAll('[data-selected]').forEach((event) => {
+                event.value =event.dataset.selected;
+            })
+
+
 </script>

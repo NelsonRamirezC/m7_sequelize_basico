@@ -29,7 +29,9 @@ export const getProductosById = async (req, res) => {
 export const addProductos = async (req, res) => {
     try{
         let {nombre, descripcion, categoria, precio, stock} = req.body;
-        let nuevoProducto = await Producto.create({nombre, descripcion, categoria, precio, stock});
+        let categoriaId = categoria
+        let nuevoProducto = await Producto.create({nombre, descripcion, categoriaId, precio, stock});
+        console.log(nuevoProducto)
         res.status(201).json({code: 201, message: "producto creado correctamente."})
     }catch(error){
         console.log(error)
@@ -60,12 +62,14 @@ export const deleteProductosById = async (req, res) => {
 export const updateProductos = async (req, res) => {
     try{
         let {id, nombre, descripcion, categoria, precio, stock} = req.body;
+
         let producto = await Producto.findByPk(id);
         if (producto == null) {
             res.status(400).send("El producto que intenta actualizar no existe.")
         } else {
         
-            await Producto.update({ nombre, descripcion, categoria, precio, stock }, {
+            let categoriaId = categoria;
+            await Producto.update({ nombre, descripcion, categoriaId, precio, stock }, {
             where: {
               id
             }
