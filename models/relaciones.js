@@ -12,4 +12,6 @@ Categoria.hasMany(Producto, {as: "productos", foreignKey: "categoriaId"});
 Producto.belongsTo(Categoria, {as: "categoria"});
 
 
+//LÓGICA DE MUCHOS A MUCHOS ENTRE PRODUCTOS Y CARRITO
+
 

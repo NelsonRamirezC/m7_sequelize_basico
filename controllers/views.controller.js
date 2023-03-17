@@ -1,5 +1,7 @@
 import { Producto } from '../models/Producto.model.js'
 import { Categoria } from '../models/Categoria.model.js'
+import { sequelize } from '../database/database.js'
+
 
 
 export const controllerHome = async (req, res) => {
@@ -12,7 +14,17 @@ export const controllerHome = async (req, res) => {
 
 export const controllerCategorias = async (req, res) => {
     let categorias = await  Categoria.findAll();
-    console.log(categorias)
+    /* let categoria = await Categoria.findByPk(3,{
+        include: "productos"
+    });
+
+    categoria.productos.forEach(producto => {
+        console.log(producto.dataValues.nombre)
+    }) */
+
+    /* const [results, metadata] = await sequelize.query("SELECT * from productos");
+    console.log(results) */
+
     res.render("categorias", {
         categorias
     });
@@ -33,7 +45,6 @@ export const controllerInventario = async (req, res) => {
         let categorias = await  Categoria.findAll({
             raw:true
         });
-        console.log(categorias)
         res.render("inventario", {
             productos,
             categorias
