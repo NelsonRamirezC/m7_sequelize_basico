@@ -28,7 +28,7 @@ export const addProductoCarro = async (req, res) => {
         console.log(carroCliente)
 
          const [carroConProductos, create2] = await CarroProductos.findOrCreate({
-            where: {carritoId: carroCliente.id },
+            where: {carritoId: carroCliente.id, productoId: id_producto },
             defaults: {
                 carritoId: carroCliente.id,
                 productoId: id_producto,
