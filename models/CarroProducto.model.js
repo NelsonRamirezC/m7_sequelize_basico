@@ -1,16 +1,16 @@
 import {DataTypes} from 'sequelize';
 import { sequelize } from '../database/database.js'
 
-
-export const Carrito = sequelize.define('carritos', {
-    id_cliente: {
+export const CarroProductos = sequelize.define('carro_productos', {
+    cantidad: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull:false,
         validate: {
-            notEmpty: true
+            notEmpty: true,
+            min: 0
         }
-    }
 
+    }
 },{
     timestamps: false
   });

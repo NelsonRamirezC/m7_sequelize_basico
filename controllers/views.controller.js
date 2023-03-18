@@ -13,20 +13,22 @@ export const controllerHome = async (req, res) => {
 }
 
 export const controllerCategorias = async (req, res) => {
-    let categorias = await  Categoria.findAll();
-    /* let categoria = await Categoria.findByPk(3,{
-        include: "productos"
-    });
+    /* let categorias = await  Categoria.findAll({
+        raw:true,
+    }); */
+   
+    
+    const [results, metadata] = await sequelize.query(`
+            SELECT ct.id, ct.nombre, count(*) FROM productos pr
+            JOIN categorias ct
+            ON ct.id = "categoriaId"
+            group by ct.id, ct.nombre
+    `);
 
-    categoria.productos.forEach(producto => {
-        console.log(producto.dataValues.nombre)
-    }) */
-
-    /* const [results, metadata] = await sequelize.query("SELECT * from productos");
-    console.log(results) */
+    console.log(results, metadata)
 
     res.render("categorias", {
-        categorias
+        categorias: results
     });
 }
 
