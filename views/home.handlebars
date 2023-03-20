@@ -3,14 +3,20 @@
 
 <section>
     <div class="row">
-        {{#each productos }}
-        <div class="col-12 col-md-6 col-lg-4">
-            {{>card 
-                id= this.dataValues.id
-                nombre= this.dataValues.nombre
-                descripcion= this.dataValues.descripcion
-            }}
-        </div>
-        {{/each }}
+        {{#if productos}}
+                {{#each productos }}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        {{>card 
+                            id= this.dataValues.id
+                            nombre= this.dataValues.nombre
+                            descripcion= this.dataValues.descripcion
+                        }}
+                    </div>
+            {{/each }}
+
+            {{else}}
+            <h2 class="text-center mt-2">No hay productos para mostrar</h2>
+        {{/if}}
+        
     </div>
 </section>

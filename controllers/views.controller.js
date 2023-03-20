@@ -6,8 +6,11 @@ import { sequelize } from '../database/database.js'
 
 
 export const controllerHome = async (req, res) => {
-    let productos = await  Producto.findAll();
-    console.log(productos)
+    let productos = await  Producto.findAll({
+        order: [
+            ["nombre", "ASC"]
+        ]
+    });
     res.render("home", {
         productos
     });
@@ -106,12 +109,12 @@ export const controllergetProductosPorCategoria = async (req, res) => {
 
 export const controllerCarrito = async (req, res) => {
     let carrito = await sequelize.query(`
-    select pd.id, pd.nombre, pd.precio, cp.cantidad, (pd.precio * cp.cantidad) total from carritos ca
-    join carro_productos cp
-    on ca.id = cp."carritoId"
-    join productos pd
-    on pd.id = cp."productoId"
-    order by pd.id
+        select pd.id, pd.nombre, pd.precio, cp.cantidad, (pd.precio * cp.cantidad) total from carritos ca
+        join carro_productos cp
+        on ca.id = cp."carritoId"
+        join productos pd
+        on pd.id = cp."productoId"
+        order by pd.id
     `)
 
     let productos = carrito[0];
@@ -121,6 +124,11 @@ export const controllerCarrito = async (req, res) => {
       )
     res.render("carrito", {
         carrito: productos,
-        total
+        total,
+        /* helpers: {
+			resta (a,b) {
+				return a-b;
+			},
+		}, */
     });
 }

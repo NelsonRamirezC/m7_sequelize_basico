@@ -9,6 +9,8 @@
       <th scope="col">Precio</th>
       <th scope="col">Cantidad</th>
       <th scope="col">total</th>
+   {{!--    <th scope="col">resta</th> --}}
+
     </tr>
   </thead>
   <tbody>
@@ -19,6 +21,7 @@
             <td>{{this.precio}}</td>
             <td><button onclick="restar({{this.id}})">-</button> {{this.cantidad}} <button onclick="sumar({{this.id}})">+</button></td>
             <td>{{this.total}}</td>
+          {{!--   <td>{{resta this.cantidad this.cantidad}}</td> --}}
         </tr>
     {{/each}}
     <tr>

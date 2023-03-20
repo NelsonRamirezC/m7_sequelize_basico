@@ -20,7 +20,7 @@ export const addProductoCarro = async (req, res) => {
         let usuarioId = 1;
         const [carroCliente, created] = await Carrito.findOrCreate({
             raw: true,
-            where: {usuarioId  },
+            where: {usuarioId},
             defaults: {
                 usuarioId
             }
@@ -85,7 +85,6 @@ export const deleteProductoCarro = async (req, res) => {
             carroConProductos.destroy();
             return res.status(201).json({message: "Ha quitado todos los productos de ese tipo."})
         }
-
 
 
         res.status(201).json({message: "Producto Eliminado correctamente."})

@@ -11,6 +11,8 @@ import './models/DetalleVenta.model.js'
 //relaciones
 import './models/relaciones.js'
 
+//importar datos de prueba
+import './seed.js'
 
 const main = async () => {
     try{
