@@ -2,8 +2,11 @@
 
 
 <section>
-
+    <h2 class="text-center my-5">Listado de categorias disponibles</h2>
     {{#each categorias }}
-        <p>Nombre: {{this.nombre}} - Cantidad de productos por categoria: {{this.count}}</p>
+    <a href="/categoria/productos/{{this.id}}/{{this.nombre}}">
+        <p><strong>Tipo de categoria:</strong> {{this.nombre}} - Cantidad de productos: {{this.count}}</p>
+    </a>
+        
     {{/each }}
 </section>

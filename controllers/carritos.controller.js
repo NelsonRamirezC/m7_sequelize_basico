@@ -2,6 +2,7 @@
 import { Carrito } from '../models/Carro.model.js'
 
 import { CarroProductos } from '../models/CarroProducto.model.js'
+import { Producto } from '../models/Producto.model.js'
 
 //gets
 export const getCarrito = async (req, res) => {
@@ -14,18 +15,17 @@ export const getCarrito = async (req, res) => {
 
 export const addProductoCarro = async (req, res) => {
     try{
-        //id_cliente, id_producto, cantidad
+        //id cliente fijado usuario con id 1
         let {id_cliente, id_producto} = req.body;
-        let idCliente = 1;
+        let usuarioId = 1;
         const [carroCliente, created] = await Carrito.findOrCreate({
             raw: true,
-            where: {id_cliente: idCliente },
+            where: {usuarioId  },
             defaults: {
-                id_cliente:idCliente
+                usuarioId
             }
         })
 
-        console.log(carroCliente)
 
          const [carroConProductos, create2] = await CarroProductos.findOrCreate({
             where: {carritoId: carroCliente.id, productoId: id_producto },
@@ -40,22 +40,35 @@ export const addProductoCarro = async (req, res) => {
             carroConProductos.increment({cantidad:1})
         }
 
+        //validar si producto tiene stock suficiente
+        let producto = await Producto.findByPk(id_producto);
+
+        if(carroConProductos.cantidad > producto.stock){
+            await carroConProductos.update({ cantidad: producto.stock }, {
+                where: {
+                  id: producto.id
+                }
+              });
+            
+            return res.status(201).json({message: "No hay más productos en stock."})
+        }
+
         res.status(201).json({message: "Producto agregado correctamente."})
 
     }catch(error){
         console.log(error)
-        res.status(500).json({message: "al agregar el producto al carro."})
+        res.status(500).json({message: "Error al agregar el producto al carro."})
     }
 }
 
 export const deleteProductoCarro = async (req, res) => {
     try{
         //id_cliente, id_producto, cantidad
-        let {id_cliente, id_producto} = req.body;
+        let {id_producto} = req.body;
         let idCliente = 1;
         const carroCliente = await Carrito.findOne({
             raw: true,
-            where: {id_cliente: idCliente },
+            where: {usuarioId: idCliente },
         })
 
          const carroConProductos= await CarroProductos.findOne({
@@ -79,6 +92,6 @@ export const deleteProductoCarro = async (req, res) => {
 
     }catch(error){
         console.log(error)
-        res.status(500).json({message: "al agregar el producto al carro."})
+        res.status(500).json({message: "Error al agregar el producto al carro."})
     }
 }

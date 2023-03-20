@@ -1,5 +1,6 @@
 import { Producto } from '../models/Producto.model.js'
 import { Categoria } from '../models/Categoria.model.js'
+import { Carrito } from '../models/Carro.model.js'
 import { sequelize } from '../database/database.js'
 
 
@@ -43,9 +44,16 @@ export const controllerProductos = async (req, res) => {
 
 export const controllerInventario = async (req, res) => {
     try {
-        let productos = await  Producto.findAll();
+        let productos = await  Producto.findAll({
+            order: [
+                ['id', 'ASC']
+            ]
+        });
         let categorias = await  Categoria.findAll({
-            raw:true
+            raw:true,
+            order: [
+                ['id', 'ASC']
+            ]
         });
         res.render("inventario", {
             productos,
@@ -71,5 +79,48 @@ export const controllerUpdateProducto = async (req, res) => {
         producto,
         categorias,
         nombreCategoria
+    });
+}
+
+
+export const controllergetProductosPorCategoria = async (req, res) => {
+    let id = req.params.id;
+    let categoria = req.params.categoria;
+    let productos = await  Producto.findAll({
+        raw:true,
+        where: {
+            categoriaId: id,
+        },
+        order:[
+            ['id', "ASC"]
+        ]
+
+    });
+
+    res.render("detalleCategoriaProductos", {
+        categoria,
+        productos
+    });
+}
+
+
+export const controllerCarrito = async (req, res) => {
+    let carrito = await sequelize.query(`
+    select pd.id, pd.nombre, pd.precio, cp.cantidad, (pd.precio * cp.cantidad) total from carritos ca
+    join carro_productos cp
+    on ca.id = cp."carritoId"
+    join productos pd
+    on pd.id = cp."productoId"
+    order by pd.id
+    `)
+
+    let productos = carrito[0];
+    let total = productos.reduce(
+        (accumulator, currentValue) => accumulator + parseInt(currentValue.total),
+        0
+      )
+    res.render("carrito", {
+        carrito: productos,
+        total
     });
 }

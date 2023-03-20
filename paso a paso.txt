@@ -5,3 +5,24 @@ npm install --save pg pg-hstore
 npm express
 
 4.- generar estructura de carpetas
+
+
+//consultas
+
+select * from usuarios;
+
+select * from categorias;
+
+select * from productos;
+
+select * from carritos;
+delete from carritos where id = 2;
+delete from carro_productos where "carritoId" isNull;
+select * from carro_productos;
+
+
+select pd.id, pd.nombre, pd.precio, cp.cantidad, (pd.precio * cp.cantidad) total from carritos ca
+join carro_productos cp
+on ca.id = cp."carritoId"
+join productos pd
+on pd.id = cp."productoId"
