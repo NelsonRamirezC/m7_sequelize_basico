@@ -29,6 +29,7 @@
     </tr>
   </tbody>
 </table>
+<button class="btn btn-primary" id="btnPagar">Pagar</button>
 
 
 <script>
@@ -85,5 +86,36 @@
             alert(error)
         });
     }
+
+
+    let botonPagar = document.getElementById("btnPagar");
+
+    botonPagar.addEventListener("click", (event) => {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      var raw = JSON.stringify({
+        "idCliente": 1
+      });
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch("http://localhost:3000/api/v1/ventas", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          if(result.code == 201){
+            alert(result.message)
+            location.href = "/"
+          }else{
+            alert(result.error)
+          }
+        })
+        .catch(error => console.log('error', error));
+    })
 </script>
 
