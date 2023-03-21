@@ -25,7 +25,7 @@ export const generarVenta = async (req, res) => {
 
             if(carro == null) throw new Error("No existe carrito asociado.")
 
-        //encontrar detalle de productos en carro cliente
+        //paso 2: encontrar detalle de productos en carro cliente
 
         let detalleProductos = await CarroProductos.findAll({
             raw: true,
@@ -37,7 +37,7 @@ export const generarVenta = async (req, res) => {
         if(detalleProductos.length == 0) throw new Error("cliente no tiene productos en el carro.")
 
 
-        //CREAR VENTA
+        //paso 3:CREAR VENTA
 
         let nuevaVenta = await Venta.create({
             usuarioId: idCliente 
@@ -48,7 +48,7 @@ export const generarVenta = async (req, res) => {
 
 
 
-        //DESCONTAR STOCK
+        //paso 4: DESCONTAR STOCK
         for (let index = 0; index < detalleProductos.length; index++) {
             let id = detalleProductos[index].productoId;
             let cantidad = detalleProductos[index].cantidad;
@@ -61,7 +61,7 @@ export const generarVenta = async (req, res) => {
             }
             await producto.decrement({stock: cantidad}, { transaction: t })  
             
-            //INGRESAR PRODUCTOS VENDIDOS A LA TABLA DETALLE VENTAS
+            //paso 5: INGRESAR PRODUCTOS VENDIDOS A LA TABLA DETALLE VENTAS
 
             const detalleVenta = await DetalleVenta.create({
                 cantidad: cantidad,
@@ -72,7 +72,12 @@ export const generarVenta = async (req, res) => {
             }, { transaction: t })
 
         }
-        //FALTA VACIAR EL CARRO.
+        //pase 6: FALTA VACIAR EL CARRO.
+            await CarroProductos.destroy({
+                where:{
+                    carritoId: idCarritoCliente
+                }
+            }, { transaction: t })
 
         await t.commit();
         res.status(201).json({code: 201, message:"Venta generada correctamente."})
@@ -80,11 +85,5 @@ export const generarVenta = async (req, res) => {
         await t.rollback();
         res.status(500).json({code: 500, error:"Error al generar la venta."})
     }
-    
-
-
-
-    
-    
 
 }
